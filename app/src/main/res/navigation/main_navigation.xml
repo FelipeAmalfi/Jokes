@@ -19,11 +19,25 @@
         android:name="com.jokes.view.fragment.JokeFragment"
         android:label="fragment_joke"
         tools:layout="@layout/fragment_joke" >
-        <action
-            android:id="@+id/backToCategories"
-            app:destination="@id/categoriesFragment" />
         <argument
             android:name="categoryId"
             app:argType="string" />
+        <action
+            android:id="@+id/sendToWebview"
+            app:destination="@id/webViewFragment" />
+        <action
+            android:id="@+id/action_jokeFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.jokes.view.fragment.WebViewFragment"
+        android:label="WebViewFragment" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_webViewFragment_to_jokeFragment"
+            app:destination="@id/jokeFragment" />
     </fragment>
 </navigation>

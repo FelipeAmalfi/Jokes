@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="category_item_height">60dp</dimen>
+    <dimen name="category_card_radius">10dp</dimen>
+    <dimen name="margin_joke">18dp</dimen>
+</resources>

@@ -7,6 +7,9 @@
         <variable
             name="joke"
             type="com.jokes.model.Joke" />
+        <variable
+            name="listener"
+            type="com.jokes.view.util.JokeClick" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,9 +21,9 @@
             android:id="@+id/chuck_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="32dp"
             android:imageUrl="@{joke.icon}"
-            android:minHeight="200dp"
+            android:minHeight="50dp"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +34,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:textSize="24sp"
+            android:layout_marginLeft="@dimen/margin_joke"
+            android:layout_marginRight="@dimen/margin_joke"
+            android:textSize="20sp"
+            android:textAlignment="center"
             android:text="@{joke.value}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,28 +47,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@{joke.url}"
+            android:text="@string/see_page"
+            android:onClick="@{(v) -> listener.seePage(v)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.536"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/jokeValue"
-            tools:text="@string/see_page" />
+            />
 
         <Button
             android:id="@+id/newJoke"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@{joke.url}"
-            android:background="transparent"
-            android:textColor="#0645AD"
+            android:textColor="@color/link"
             android:textAllCaps="false"
+            android:background="@color/transparent"
+            android:drawableLeft="@drawable/ic_refresh"
+            android:drawableTint="@color/link"
+            android:text="@string/show_more"
             android:textSize="20sp"
+            android:onClick="@{() -> listener.reloadJoke()}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.536"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnUrl"
-            tools:text="@string/show_more" />
+            tools:targetApi="m" />
 
 
 

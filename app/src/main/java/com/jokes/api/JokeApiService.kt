@@ -19,4 +19,8 @@ class JokeApiService {
     fun getJoke(category: String): Single<Joke> {
         return api.fetchJoke(category);
     }
+
+    fun fetchCategory(): Single<List<String>> {
+        return api.fetchCategory();
+    }
 }

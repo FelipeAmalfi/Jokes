@@ -10,13 +10,14 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 
 
-class JokeViewModel(val categoryId: String): ViewModel() {
+class JokeViewModel(): ViewModel() {
     private val jokeService =  JokeApiService()
     private val disposable = CompositeDisposable()
 
     val joke = MutableLiveData<Joke>()
     val jokeLoadError = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
+    lateinit var categoryId: String
 
     fun fetchJoke(){
        newJoke()

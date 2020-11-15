@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.jokes.R
 import com.jokes.databinding.FragmentJokeBinding
+import com.jokes.view.util.JokeClick
 import com.jokes.viewmodel.JokeViewModel
 
-class JokeFragment : Fragment() {
+class JokeFragment : Fragment(), JokeClick {
 
     private lateinit var  viewModel: JokeViewModel
     private lateinit var dataBinding: FragmentJokeBinding
@@ -21,6 +23,7 @@ class JokeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_joke, container, false)
+        dataBinding.listener = this
         return dataBinding.root
     }
 
@@ -29,11 +32,10 @@ class JokeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            val id = JokeFragmentArgs.fromBundle(it).categoryId
-            viewModel = ViewModelProviders.of(this).get(JokeViewModel(id)::class.java)
+            viewModel = ViewModelProviders.of(this).get(JokeViewModel::class.java)
+            viewModel.categoryId =  JokeFragmentArgs.fromBundle(it).categoryId
         }
         viewModel.fetchJoke();
-
         observeViewModel()
     }
 
@@ -45,5 +47,15 @@ class JokeFragment : Fragment() {
             }
         })
     }
+
+    override fun reloadJoke() {
+        viewModel.fetchJoke()
+    }
+
+    override fun seePage(v: View) {
+        val action = viewModel.joke.value?.url?.let { JokeFragmentDirections.sendToWebview(it) }
+        action?.let { Navigation.findNavController(v).navigate(it) }
+    }
+
 
 }

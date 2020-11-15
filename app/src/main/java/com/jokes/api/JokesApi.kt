@@ -10,7 +10,7 @@ interface JokesApi {
     @GET("jokes/random")
     fun fetchJoke(@Query("category") category: String): Single<Joke>
 
-    @GET("DevTides/jokes/categories")
+    @GET("jokes/categories")
     fun fetchCategory(): Single<List<String>>
 
     @GET("jokes/search")

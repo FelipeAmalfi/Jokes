@@ -4,5 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error_download_data">Error to download data</string>
     <string name="see_page">Check out on web page</string>
-    <string name="show_more">⟳ Show me one more</string>
+    <string name="show_more">Show me one more</string>
+    <string name="category">Category</string>
 </resources>
