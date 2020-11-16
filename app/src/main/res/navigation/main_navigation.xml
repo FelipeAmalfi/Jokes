@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="com.jokes.view.fragment.CategoriesFragment"
-        android:label="fragment_categories"
-        tools:layout="@layout/fragment_categories" >
+        android:label="@string/category"
+        tools:layout="@layout/fragment_categories">
         <action
             android:id="@+id/sendToJoke"
             app:destination="@id/jokeFragment" />
@@ -17,8 +17,8 @@
     <fragment
         android:id="@+id/jokeFragment"
         android:name="com.jokes.view.fragment.JokeFragment"
-        android:label="fragment_joke"
-        tools:layout="@layout/fragment_joke" >
+        android:label="@string/jokes"
+        tools:layout="@layout/fragment_joke">
         <argument
             android:name="categoryId"
             app:argType="string" />
@@ -26,18 +26,28 @@
             android:id="@+id/sendToWebview"
             app:destination="@id/webViewFragment" />
         <action
-            android:id="@+id/action_jokeFragment_to_categoriesFragment"
+            android:id="@+id/backToCategories"
             app:destination="@id/categoriesFragment" />
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"
         android:name="com.jokes.view.fragment.WebViewFragment"
-        android:label="WebViewFragment" >
+        android:label="@string/site">
         <argument
             android:name="url"
             app:argType="string" />
         <action
-            android:id="@+id/action_webViewFragment_to_jokeFragment"
+            android:id="@+id/backToJokes"
             app:destination="@id/jokeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/favoriteJokesFragment"
+        android:name="com.jokes.view.fragment.FavoriteJokesFragment"
+        android:label="@string/favorite_jokes"
+        tools:layout="@layout/fragment_favorite_jokes" />
+    <fragment
+        android:id="@+id/searchJokesFragment"
+        android:name="com.jokes.view.fragment.SearchJokesFragment"
+        android:label="@string/search_joke"
+        tools:layout="@layout/fragment_search_jokes" />
 </navigation>

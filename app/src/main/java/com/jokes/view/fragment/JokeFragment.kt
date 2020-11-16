@@ -27,24 +27,30 @@ class JokeFragment : Fragment(), JokeClick {
         return dataBinding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        arguments?.let {
             viewModel = ViewModelProviders.of(this).get(JokeViewModel::class.java)
-            viewModel.categoryId =  JokeFragmentArgs.fromBundle(it).categoryId
-        }
-        viewModel.fetchJoke();
-        observeViewModel()
-    }
 
+            arguments?.let {
+                viewModel.categoryId = JokeFragmentArgs.fromBundle(it).categoryId
+            }
+            viewModel.fetchJoke();
+            observeViewModel()
+    }
 
     private fun observeViewModel() {
         viewModel.joke.observe(viewLifecycleOwner, Observer {joke ->
             joke.let {
                 dataBinding.joke = joke
             }
+        })
+
+        viewModel.favorited.observe(viewLifecycleOwner, Observer{
+           if(it){
+               viewModel.favoriteJoke();
+           }else{
+               viewModel.removeFavoriteJoke()
+           }
         })
     }
 

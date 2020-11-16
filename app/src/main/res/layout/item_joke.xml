@@ -5,16 +5,12 @@
 
     <data>
         <variable
-            name="category"
-            type="String" />
-        <variable
-            name="listener"
-            type="com.jokes.view.util.CategoryClick" />
+            name="joke"
+            type="com.jokes.model.Joke" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/category_item_height"
-        android:onClick="@{(v) -> listener.onCategoryClick(v, category)}"
         app:cardCornerRadius="@dimen/category_card_radius"
         android:layout_margin="12dp"
         app:cardElevation="10dp"
@@ -23,7 +19,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             >
 
             <TextView
@@ -31,8 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/category"
-                android:text="@{category}"
-                android:textColor="@color/purple_500"
+                android:text="@{joke.value}"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textAlignment="center"

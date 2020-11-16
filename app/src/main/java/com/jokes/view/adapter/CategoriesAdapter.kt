@@ -16,9 +16,9 @@ class CategoriesAdapter(val categoryList: ArrayList<String>): RecyclerView.Adapt
 
     class CategoryViewHolder( var view: ItemCategoryBinding): RecyclerView.ViewHolder(view.root)
 
-    fun updateList(categoriesList: List<String>){
+    fun updateList(categories: List<String>){
         categoryList.clear()
-        categoryList.addAll(categoriesList)
+        categoryList.addAll(categories)
         notifyDataSetChanged()
     }
 

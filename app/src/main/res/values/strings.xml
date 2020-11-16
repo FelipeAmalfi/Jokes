@@ -5,5 +5,11 @@
     <string name="error_download_data">Error to download data</string>
     <string name="see_page">Check out on web page</string>
     <string name="show_more">Show me one more</string>
-    <string name="category">Category</string>
+    <string name="category">Categories</string>
+    <string name="favorite_jokes">Favorite Jokes</string>
+    <string name="search_joke">Search for a joke</string>
+    <string name="site">Site</string>
+    <string name="jokes">Jokes</string>
+    <string name="search">Search</string>
+    <string name="favorites">Favorites</string>
 </resources>

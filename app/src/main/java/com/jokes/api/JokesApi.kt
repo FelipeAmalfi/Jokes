@@ -1,6 +1,7 @@
 package com.jokes.api
 
 import com.jokes.model.Joke
+import com.jokes.model.SearchedJoke
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -14,6 +15,6 @@ interface JokesApi {
     fun fetchCategory(): Single<List<String>>
 
     @GET("jokes/search")
-    fun fetchJokeSearched(@Query("query") query: String): Single<List<Joke>>
+    fun fetchJokeSearched(@Query("query") query: String): Single<SearchedJoke>
 
 }
