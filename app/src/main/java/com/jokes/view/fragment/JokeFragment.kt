@@ -14,7 +14,7 @@ import androidx.navigation.Navigation
 import com.jokes.R
 import com.jokes.databinding.FragmentJokeBinding
 import com.jokes.model.Joke
-import com.jokes.view.util.JokeClick
+import com.jokes.view.listeners.JokeClick
 import com.jokes.viewmodel.JokeViewModel
 
 class JokeFragment() : Fragment(), JokeClick {
@@ -60,7 +60,7 @@ class JokeFragment() : Fragment(), JokeClick {
         viewModel.loading.observe(viewLifecycleOwner, Observer {
             dataBinding.loading = it
         })
-        viewModel.favorited.observe(viewLifecycleOwner, Observer {
+        viewModel.favorite.observe(viewLifecycleOwner, Observer {
             dataBinding.favorite = it
         })
     }
@@ -75,7 +75,7 @@ class JokeFragment() : Fragment(), JokeClick {
     }
 
     override fun favoriteJoke(v: View, joke: Joke) {
-        if(!viewModel.favorited.value!!) {
+        if(!viewModel.favorite.value!!) {
             viewModel.favoriteJoke(joke)
             Toast.makeText(activity, getString(R.string.add_favorite), Toast.LENGTH_SHORT).show()
         }else{

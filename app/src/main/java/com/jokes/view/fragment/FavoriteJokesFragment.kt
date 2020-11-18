@@ -1,31 +1,38 @@
 package com.jokes.view.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jokes.R
 import com.jokes.databinding.FragmentFavoriteJokesBinding
-import com.jokes.view.adapter.JokesAdapter
+import com.jokes.view.adapter.FavoritesAdapter
 import com.jokes.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.fragment_favorite_jokes.*
+
 
 class FavoriteJokesFragment : Fragment() {
 
     private lateinit var viewModel: FavoriteViewModel
-    private val jokesAdapter = JokesAdapter(arrayListOf())
+    lateinit var jokesAdapter : FavoritesAdapter
     private lateinit var dataBinding: FragmentFavoriteJokesBinding
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite_jokes, container, false)
+        dataBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_favorite_jokes,
+            container,
+            false
+        )
         return dataBinding.root
     }
 
@@ -33,12 +40,14 @@ class FavoriteJokesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProviders.of(this).get(FavoriteViewModel::class.java)
+
         handleLayout()
         observeViewModel()
 
     }
 
     private fun handleLayout() {
+        jokesAdapter = FavoritesAdapter(arrayListOf(), viewModel)
         favoriteList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = jokesAdapter;

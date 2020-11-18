@@ -13,7 +13,7 @@ abstract class JokeDatabase: RoomDatabase() {
     abstract  fun jokeDao(): JokeDAO
 
     companion object {
-        private val DATABASE_NAME =  "jokeDatabase"
+        private const val DATABASE_NAME =  "jokeDatabase"
         @Volatile private var instance: JokeDatabase? = null
         private val LOCK = Any()
 

@@ -1,4 +1,4 @@
-package com.jokes.view.util
+package com.jokes.view.listeners
 
 import android.view.View
 import com.jokes.model.Joke

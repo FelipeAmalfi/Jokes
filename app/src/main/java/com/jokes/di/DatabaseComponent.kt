@@ -5,5 +5,5 @@ import dagger.Component
 
 @Component(modules=[DatabaseModule::class])
 interface DatabaseComponent {
-    fun injectDatabase(vm: FavoriteViewModel)
+    fun inject(vm: FavoriteViewModel)
 }

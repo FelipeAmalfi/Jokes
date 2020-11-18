@@ -12,7 +12,7 @@ interface JokeDAO {
     suspend fun insertJoke(joke: Joke)
 
     @Query("SELECT * FROM Joke" )
-    suspend fun getAllJokes(): List<Joke>
+    suspend fun selectAllJokes(): List<Joke>
 
     @Query("SELECT * FROM Joke WHERE id = :jokeId")
     suspend fun getJoke(jokeId: Int): Joke

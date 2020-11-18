@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.jokes.DAO.JokeDAO
 import com.jokes.api.JokesApi
 import com.jokes.di.*
@@ -16,7 +15,6 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Provider
 
 
 class JokeViewModel(application: Application, private val categoryId: String) : BaseViewModel(application) {
@@ -33,7 +31,7 @@ class JokeViewModel(application: Application, private val categoryId: String) : 
     val jokeLoadError = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
     val showJoke = MutableLiveData<Boolean>()
-    val favorited = MutableLiveData<Boolean>()
+    val favorite = MutableLiveData<Boolean>()
 
     init {
         DaggerApiDatabaseComponent.builder()
@@ -42,35 +40,6 @@ class JokeViewModel(application: Application, private val categoryId: String) : 
             .inject(this)
 
         fetchJoke()
-    }
-
-
-    fun fetchJoke() {
-        handleLoading()
-        fetchJokes()
-    }
-
-    fun favoriteJoke(joke: Joke) {
-        launch {
-            try{
-                dao.insertJoke(joke)
-                favorited.value = true
-            }catch (e: Exception){
-                e.printStackTrace()
-            }
-
-        }
-    }
-
-    fun removeFavoriteJoke(joke: Joke) {
-        launch {
-            try {
-                dao.deleteJoke(joke)
-                favorited.value = false
-            }catch(e: Exception){
-                e.printStackTrace()
-            }
-        }
     }
 
     private fun fetchJokes() {
@@ -90,7 +59,6 @@ class JokeViewModel(application: Application, private val categoryId: String) : 
         )
     }
 
-
     private fun handleLoading() {
         showJoke.value = false
         loading.value = true
@@ -103,9 +71,7 @@ class JokeViewModel(application: Application, private val categoryId: String) : 
             showJoke.value = true
             jokeLoadError.value = false
             loading.value = false
-            val exists = dao.existJoke(result.id)
-            println("existe? $exists")
-            favorited.value = exists
+            favorite.value = dao.existJoke(result.id)
         }
 
     }
@@ -120,6 +86,35 @@ class JokeViewModel(application: Application, private val categoryId: String) : 
         super.onCleared()
         disposable.clear();
     }
+
+    fun fetchJoke() {
+        handleLoading()
+        fetchJokes()
+    }
+
+    fun favoriteJoke(joke: Joke) {
+        launch {
+            try{
+                dao.insertJoke(joke)
+                favorite.value = true
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
+
+        }
+    }
+
+    fun removeFavoriteJoke(joke: Joke) {
+        launch {
+            try {
+                dao.deleteJoke(joke)
+                favorite.value = false
+            }catch(e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+
 
 
     class JokeViewModelFactory (private val application: Application, private val categoryId: String) : ViewModelProvider.Factory {

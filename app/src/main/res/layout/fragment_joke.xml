@@ -16,7 +16,7 @@
 
         <variable
             name="listener"
-            type="com.jokes.view.util.JokeClick" />
+            type="com.jokes.view.listeners.JokeClick" />
 
         <variable
             name="showJoke"

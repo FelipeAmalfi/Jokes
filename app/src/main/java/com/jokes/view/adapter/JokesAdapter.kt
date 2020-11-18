@@ -1,20 +1,14 @@
 package com.jokes.view.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.jokes.R
-import com.jokes.databinding.ItemCategoryBinding
 import com.jokes.databinding.ItemJokeBinding
 import com.jokes.model.Joke
-import com.jokes.view.fragment.CategoriesFragmentDirections
-import com.jokes.view.util.CategoryClick
 
-class JokesAdapter(val jokesList: ArrayList<Joke>): RecyclerView.Adapter<JokesAdapter.JokeViewHolder>(){
+class JokesAdapter(private val jokesList: ArrayList<Joke>): RecyclerView.Adapter<JokesAdapter.JokeViewHolder>(){
 
     class JokeViewHolder( var view: ItemJokeBinding): RecyclerView.ViewHolder(view.root)
 

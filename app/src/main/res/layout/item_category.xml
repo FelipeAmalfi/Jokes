@@ -9,7 +9,7 @@
             type="String" />
         <variable
             name="listener"
-            type="com.jokes.view.util.CategoryClick" />
+            type="com.jokes.view.listeners.CategoryClick" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
