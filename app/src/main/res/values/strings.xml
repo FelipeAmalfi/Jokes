@@ -12,4 +12,12 @@
     <string name="jokes">Jokes</string>
     <string name="search">Search</string>
     <string name="favorites">Favorites</string>
+    <string name="empty_search">No results found for your search</string>
+    <string name="favoriteButton">Add to favorite</string>
+    <string name="unfavoriteButton">Remove from favorite</string>
+    <string name="empty_favorite">No jokes favorited until now.</string>
+    <string name="add_favorite">Joke added to favorites.</string>
+    <string name="error_favorite">Error to add joke to favorites</string>
+    <string name="remove_favorites">Joke removed from favorites</string>
+    <string name="category_title">Choose a category to your joke and start to have fun!</string>
 </resources>

@@ -48,6 +48,6 @@
     <fragment
         android:id="@+id/searchJokesFragment"
         android:name="com.jokes.view.fragment.SearchJokesFragment"
-        android:label="@string/search_joke"
+        android:label="@string/search"
         tools:layout="@layout/fragment_search_jokes" />
 </navigation>

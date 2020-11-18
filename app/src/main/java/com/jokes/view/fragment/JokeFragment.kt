@@ -1,25 +1,29 @@
 package com.jokes.view.fragment
 
+import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.jokes.R
 import com.jokes.databinding.FragmentJokeBinding
+import com.jokes.model.Joke
 import com.jokes.view.util.JokeClick
 import com.jokes.viewmodel.JokeViewModel
 
-class JokeFragment : Fragment(), JokeClick {
+class JokeFragment() : Fragment(), JokeClick {
 
     private lateinit var  viewModel: JokeViewModel
+    lateinit var viewModelFactory: JokeViewModel.JokeViewModelFactory
+    lateinit var application: Application
+
     private lateinit var dataBinding: FragmentJokeBinding
-
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_joke, container, false)
@@ -29,12 +33,14 @@ class JokeFragment : Fragment(), JokeClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            viewModel = ViewModelProviders.of(this).get(JokeViewModel::class.java)
-
-            arguments?.let {
-                viewModel.categoryId = JokeFragmentArgs.fromBundle(it).categoryId
+            activity?.let {
+                application = it.application
             }
-            viewModel.fetchJoke();
+            arguments?.let {
+                val id =  JokeFragmentArgs.fromBundle(it).categoryId
+                viewModelFactory = JokeViewModel.JokeViewModelFactory( application,id)
+                viewModel = ViewModelProvider(this, viewModelFactory).get(JokeViewModel::class.java)
+            }
             observeViewModel()
     }
 
@@ -45,12 +51,17 @@ class JokeFragment : Fragment(), JokeClick {
             }
         })
 
-        viewModel.favorited.observe(viewLifecycleOwner, Observer{
-           if(it){
-               viewModel.favoriteJoke();
-           }else{
-               viewModel.removeFavoriteJoke()
-           }
+        viewModel.showJoke.observe(viewLifecycleOwner, Observer {
+            dataBinding.showJoke = it
+        })
+        viewModel.jokeLoadError.observe(viewLifecycleOwner, Observer {
+            dataBinding.error = it
+        })
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            dataBinding.loading = it
+        })
+        viewModel.favorited.observe(viewLifecycleOwner, Observer {
+            dataBinding.favorite = it
         })
     }
 
@@ -61,6 +72,16 @@ class JokeFragment : Fragment(), JokeClick {
     override fun seePage(v: View) {
         val action = viewModel.joke.value?.url?.let { JokeFragmentDirections.sendToWebview(it) }
         action?.let { Navigation.findNavController(v).navigate(it) }
+    }
+
+    override fun favoriteJoke(v: View, joke: Joke) {
+        if(!viewModel.favorited.value!!) {
+            viewModel.favoriteJoke(joke)
+            Toast.makeText(activity, getString(R.string.add_favorite), Toast.LENGTH_SHORT).show()
+        }else{
+            viewModel.removeFavoriteJoke(joke)
+            Toast.makeText(activity, getString(R.string.remove_favorites), Toast.LENGTH_SHORT).show()
+        }
     }
 
 

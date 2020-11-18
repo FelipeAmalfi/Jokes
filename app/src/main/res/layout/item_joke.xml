@@ -8,29 +8,29 @@
             name="joke"
             type="com.jokes.model.Joke" />
     </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/category_item_height"
-        app:cardCornerRadius="@dimen/category_card_radius"
+        android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        app:cardElevation="10dp"
-        >
+        android:clipToPadding="false"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/category"
+                android:padding="12dp"
                 android:text="@{joke.value}"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

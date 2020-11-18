@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/category"
                 android:text="@{category}"
-                android:textColor="@color/purple_500"
+                android:textColor="@color/purple_700"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textAlignment="center"

@@ -3,4 +3,5 @@
     <dimen name="category_item_height">60dp</dimen>
     <dimen name="category_card_radius">10dp</dimen>
     <dimen name="margin_joke">18dp</dimen>
+    <dimen name="marginImageTop">32dp</dimen>
 </resources>

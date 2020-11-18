@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jokes.R
 import com.jokes.databinding.FragmentCategoriesBinding
@@ -33,8 +34,6 @@ class CategoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProviders.of(this).get(CategoriesViewModel::class.java)
-        viewModel.getCategories()
-
         handleLayout()
         observeViewModel()
 
@@ -42,7 +41,7 @@ class CategoriesFragment : Fragment() {
 
     private fun handleLayout() {
         categoriesList.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = GridLayoutManager(context,2)
             adapter = categoriesAdapter;
         }
 

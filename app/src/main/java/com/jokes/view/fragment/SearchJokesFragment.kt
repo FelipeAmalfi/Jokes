@@ -1,20 +1,24 @@
 package com.jokes.view.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView.OnEditorActionListener
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jokes.R
 import com.jokes.databinding.FragmentSearchJokesBinding
+import com.jokes.util.hideKeyboard
 import com.jokes.view.adapter.JokesAdapter
 import com.jokes.viewmodel.SearchViewModel
-
 import kotlinx.android.synthetic.main.fragment_search_jokes.*
+
 
 class SearchJokesFragment : Fragment() {
 
@@ -34,7 +38,6 @@ class SearchJokesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
-        viewModel.searchJoke("domino")
         handleLayout()
         observeViewModel()
 
@@ -45,6 +48,15 @@ class SearchJokesFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = jokesAdapter;
         }
+
+        editSearch.setOnEditorActionListener(OnEditorActionListener { search, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                viewModel.searchJoke(search.text.toString())
+                hideKeyboard()
+                return@OnEditorActionListener true
+            }
+            false
+        })
     }
 
     private fun observeViewModel() {

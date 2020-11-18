@@ -2,15 +2,17 @@ package com.jokes.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jokes.api.JokeApiService
-import com.jokes.model.Joke
+import com.jokes.api.JokesApi
+import com.jokes.di.DaggerApiComponent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class CategoriesViewModel: ViewModel() {
-    private val jokeService =  JokeApiService()
+    @Inject
+    lateinit var jokeService: JokesApi
     private val disposable = CompositeDisposable()
 
     val categories = MutableLiveData<List<String>>()
@@ -23,6 +25,11 @@ class CategoriesViewModel: ViewModel() {
         loading.value = true
         categoryLoadError.value =  false
         fetchCategories()
+    }
+
+    init {
+        DaggerApiComponent.create().inject(this)
+        getCategories()
     }
 
 

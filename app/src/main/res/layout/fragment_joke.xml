@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:visibility="visible">
+
+
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="joke"
             type="com.jokes.model.Joke" />
+
         <variable
             name="listener"
             type="com.jokes.view.util.JokeClick" />
+
+        <variable
+            name="showJoke"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="loading"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="error"
+            type="java.lang.Boolean" />
+        <variable
+            name="favorite"
+            type="java.lang.Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,63 +39,152 @@
         android:layout_height="match_parent"
         tools:context=".view.fragments.DetailsFragment">
 
-        <ImageView
-            android:id="@+id/chuck_icon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:imageUrl="@{joke.icon}"
-            android:minHeight="50dp"
-            android:scaleType="fitCenter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/jokeValue"
+        <ProgressBar
+            android:id="@+id/loadingView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginLeft="@dimen/margin_joke"
-            android:layout_marginRight="@dimen/margin_joke"
-            android:textSize="20sp"
-            android:textAlignment="center"
-            android:text="@{joke.value}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chuck_icon" />
-        <Button
-            android:id="@+id/btnUrl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/see_page"
-            android:onClick="@{(v) -> listener.seePage(v)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.536"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/jokeValue"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE}"
             />
 
-        <Button
-            android:id="@+id/newJoke"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/jokeLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/link"
-            android:textAllCaps="false"
-            android:background="@color/transparent"
-            android:drawableLeft="@drawable/ic_refresh"
-            android:drawableTint="@color/link"
-            android:text="@string/show_more"
-            android:textSize="20sp"
-            android:onClick="@{() -> listener.reloadJoke()}"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:visibility="@{ showJoke ? View.VISIBLE: View.GONE }"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnUrl"
-            tools:targetApi="m" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/btnUrl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="20dp"
+                android:onClick="@{(v) -> listener.seePage(v)}"
+                android:text="@string/see_page"
+                android:drawableLeft="@drawable/ic_web"
+                android:drawableTint="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/newJoke"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button"
+                app:layout_constraintTop_toBottomOf="@+id/jokeValue" />
+
+            <Button
+                android:id="@+id/newJoke"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:drawableLeft="@drawable/ic_refresh"
+                android:drawableTint="@color/link"
+                android:onClick="@{() -> listener.reloadJoke()}"
+                android:text="@string/show_more"
+                android:textAllCaps="false"
+                android:textColor="@color/link"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:targetApi="m" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="20dp"
+                android:drawableLeft="@drawable/ic_favorite_filled"
+                android:drawableTint="@color/white"
+                android:text="@{favorite? @string/unfavoriteButton: @string/favoriteButton}"
+                android:onClick="@{(v) -> listener.favoriteJoke(v, joke)}"
+                app:layout_constraintBottom_toTopOf="@+id/newJoke"
+                app:layout_constraintEnd_toStartOf="@+id/btnUrl"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/jokeValue" />
+
+            <ImageView
+                android:id="@+id/chuck_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/marginImageTop"
+                android:imageUrl="@{joke.icon}"
+                android:minHeight="50dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/jokeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_joke"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="@dimen/margin_joke"
+                android:text="@{joke.value}"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chuck_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/errorLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="@{error ? View.VISIBLE: View.GONE }"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/reloadJoke"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/transparent"
+                android:drawableLeft="@drawable/ic_refresh"
+                android:drawableTint="@color/link"
+                android:onClick="@{() -> listener.reloadJoke()}"
+                android:text="@string/show_more"
+                android:textAllCaps="false"
+                android:textColor="@color/link"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listError"
+                tools:targetApi="m" />
+
+            <TextView
+                android:id="@+id/listError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/error_download_data"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
